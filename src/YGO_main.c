@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-	
+
 	
 /** Our main display for the user */
 static Window *main_window;
@@ -29,8 +29,7 @@ static int value = 0;
 static int count = 0;
 
 
-char *itoa(int num){
-	
+char * itoa(int num){
 	static char buff[20] = {};
 	int i = 0, temp_num = num, length = 0;
 	char *string = buff;
@@ -43,7 +42,7 @@ char *itoa(int num){
 			buff[(length-1)-i] = '0' + (num % 10);
 			num /= 10;
      }
-		buff[i] = '\0'; // can't forget the null byte to properly end our string
+		buff[i] = '\0';
   }else{
 		return "Unsupported Number";
 	}
@@ -91,8 +90,6 @@ static void click_config_provider(void *context) {
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
-
-
 /**
  * Main Window Load - When the window is loaded, what happens?
  */ 
@@ -115,14 +112,15 @@ static void main_window_load(Window *window) {
   text_layer_set_text_color(amount, GColorBlack);
   text_layer_set_text(amount, "50");
   text_layer_set_font(amount, fonts_get_system_font(FONT_KEY_BITHAM_34_MEDIUM_NUMBERS));
-	text_layer_set_text_alignment(lpTextLayer, GTextAlignmentLeft);
+	//text_layer_set_text_alignment(lpTextLayer, GTextAlignmentLeft);
 	
-  lpTextLayer = text_layer_create(GRect(0, 50, 144, 50));
+  lpTextLayer = text_layer_create(GRect(20, 50, 144, 50));
   //text_layer_set_background_color(lpTextLayer, GColorBlack);
   text_layer_set_text_color(lpTextLayer, GColorBlack);
+	APP_LOG(APP_LOG_LEVEL_INFO, "HIIIIII!.");
   text_layer_set_text(lpTextLayer, "8000");
   text_layer_set_font(lpTextLayer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
-  text_layer_set_text_alignment(lpTextLayer, GTextAlignmentCenter);
+  //text_layer_set_text_alignment(lpTextLayer, GTextAlignmentCenter);
   
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(lpTextLayer));
 	layer_add_child(window_get_root_layer(window), text_layer_get_layer(plus));
@@ -168,7 +166,7 @@ static void deinit() {
  */
 int main(void) { 
   init(); // Setup the watchface!
-  //app_event_loop(); // Run the watchface!
+  app_event_loop(); // Run the watchface!
   deinit(); // Clean up everything we used in the watchface!
   return 0; // Everything is okay!
 }
