@@ -29,31 +29,30 @@ static int value = 0;
 static int count = 0;
 
 
-char * itoa(int i, char b[]){
-    char const digit[] = "0123456789";
-    char* p = b;
-    if(i<0){
-        *p++ = '-';
-        i *= -1;
-    }
-    int shifter = i;
-    do{ //Move to where representation ends
-        ++p;
-        shifter = shifter/10;
-    }while(shifter);
-    *p = '\0';
-    do{ //Move back, inserting digits as u go
-        *--p = digit[i%10];
-        i = i/10;
-    }while(i);
-    return b;
+char *itoa(int num){
+	
+	static char buff[20] = {};
+	int i = 0, temp_num = num, length = 0;
+	char *string = buff;
+	if(num >= 0){
+		while(temp_num) {
+			temp_num /= 10;
+			length++;
+     }
+		for(i = 0; i < length; i++) {
+			buff[(length-1)-i] = '0' + (num % 10);
+			num /= 10;
+     }
+		buff[i] = '\0'; // can't forget the null byte to properly end our string
+  }else{
+		return "Unsupported Number";
+	}
+		return string;
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 		value = value + change;
-	  char * buffer = "000000000000000";
-	  buffer = itoa(value, buffer);
-	  text_layer_set_text(lpTextLayer, buffer);
+	  text_layer_set_text(lpTextLayer, itoa(value));
 	  text_layer_set_text_color(lpTextLayer, GColorBlack);
 }
 
@@ -80,9 +79,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
 		value = value - change;
-	  char * buffer = "000000000000000";
-	  buffer  = itoa(value, buffer);
-	  text_layer_set_text(lpTextLayer, buffer);
+	  text_layer_set_text(lpTextLayer, itoa(value));
 	  text_layer_set_text_color(lpTextLayer, GColorBlack);
 
 }
@@ -171,7 +168,7 @@ static void deinit() {
  */
 int main(void) { 
   init(); // Setup the watchface!
-  app_event_loop(); // Run the watchface!
+  //app_event_loop(); // Run the watchface!
   deinit(); // Clean up everything we used in the watchface!
   return 0; // Everything is okay!
 }
